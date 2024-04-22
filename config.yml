@@ -1,0 +1,7 @@
+fastq_directory:
+  class: Directory
+  location: /home/scontaldo/fungi/streamflowMicrobiomeAnalysis/input 
+index:
+  class: File
+  path: /home/scontaldo/variantCalling/hg38-20221027/indexGenome/hg38.fa
+threads: 30 
