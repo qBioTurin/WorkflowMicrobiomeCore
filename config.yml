@@ -5,3 +5,6 @@ index:
   class: File
   path: /home/scontaldo/variantCalling/hg38-20221027/indexGenome/hg38.fa
 threads: 30 
+db_path:
+  class: File
+  path: /storage/scontaldo/fungi/krakenDB/Virus/hash.k2d

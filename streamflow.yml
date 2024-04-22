@@ -14,6 +14,14 @@ workflows:
         target:
           deployment: slurm-genomemapper
           workdir: /beegfs/home/scontald/sf_tmp
+      - step: /kraken2 
+        target:
+          deployment: slurm-kraken2
+          workdir: /beegfs/home/scontald/sf_tmp
+      - step: /kraken-biom 
+        target:
+          deployment: slurm-kraken2
+          workdir: /beegfs/home/scontald/sf_tmp
         
 
 deployments:
@@ -25,6 +33,14 @@ deployments:
       sshKey: /home/scontaldo/.ssh/id_rsa  
       maxConcurrentJobs: 10
       file: ./sbatch/genomeMapper.sh
+  slurm-kraken2:
+    type: slurm
+    config:
+      hostname: c3sfr1.di.unito.it
+      username: scontald
+      sshKey: /home/scontaldo/.ssh/id_rsa  
+      maxConcurrentJobs: 10
+      file: ./sbatch/kraken2.sh
   docker-genomemapper:
     type: docker
     config: 
