@@ -16,7 +16,15 @@ inputs:
     secondaryFiles:
       - $("opts.k2d")
       - $("taxo.k2d")
-  index:
+  index_chm13:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+  index_hg38:
     type: File
     secondaryFiles:
       - .amb
@@ -27,12 +35,6 @@ inputs:
       - .sa
 
 outputs: 
-  genomemapper_unmapped_hg38_R1:
-    type: File[]
-    outputSource: genomemapper_hg38/unmapped_R1
-  genomemapper_unmapped_hg38_R2:
-    type: File[]
-    outputSource: genomemapper_hg38/unmapped_R2
   kraken2_output:
     type: File[]
     outputSource: kraken2/kraken2
@@ -56,7 +58,17 @@ steps:
     in:
       read_1: zerothstep/reads_1
       read_2: zerothstep/reads_2
-      index: index
+      index: index_hg38
+      threads: threads
+    out: [unmapped_R1, unmapped_R2]
+  genomemapper_chm13:
+    run: cwl/genomeMapper_chm13.cwl
+    scatter: [read_1, read_2]
+    scatterMethod: dotproduct
+    in:
+      read_1: genomemapper_hg38/unmapped_R1 
+      read_2: genomemapper_hg38/unmapped_R2
+      index: index_chm13
       threads: threads
     out: [unmapped_R1, unmapped_R2]
   kraken2:
@@ -64,8 +76,8 @@ steps:
     scatter: [read_1, read_2]
     scatterMethod: dotproduct
     in:
-      read_1: genomemapper_hg38/unmapped_R1
-      read_2: genomemapper_hg38/unmapped_R2
+      read_1: genomemapper_chm13/unmapped_R1
+      read_2: genomemapper_chm13/unmapped_R2
       db_path: db_path
       threads: threads
     out: [kraken2, report] 
