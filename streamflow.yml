@@ -7,10 +7,11 @@ workflows:
       file: workflowKraken2.cwl
       settings: config.yml
     bindings:
-      - step: /zerothstep
-        target:
-          deployment: docker-genomemapper
       - step: /genomemapper_hg38 
+        target:
+          deployment: slurm-genomemapper
+          workdir: /beegfs/home/scontald/sf_tmp
+      - step: /genomemapper_chm13 
         target:
           deployment: slurm-genomemapper
           workdir: /beegfs/home/scontald/sf_tmp
