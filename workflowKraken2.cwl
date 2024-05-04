@@ -9,6 +9,9 @@ requirements:
 inputs:
   fastq_directory: Directory
   threads: int?
+  db_bracken: File
+  classification_level: string?
+  threshold: int?
   db_path: 
     type:
       - Directory
@@ -44,6 +47,9 @@ outputs:
   kraken-biom_output:
     type: File
     outputSource: kraken-biom/biom
+  bracken_output:
+    type: File[]
+    outputSource: bracken/bracken
 
 steps:
   zerothstep:
@@ -86,3 +92,13 @@ steps:
     in:
       kraken_report: kraken2/report
     out: [biom] 
+  bracken:
+    run: cwl/bracken.cwl
+    scatter: [report]
+    scatterMethod: dotproduct
+    in:
+      report: kraken2/report
+      kmer_distrib: db_bracken
+      classification_level: classification_level
+      threshold: threshold  
+    out: [bracken]
