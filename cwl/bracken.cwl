@@ -3,15 +3,6 @@ class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
-  InitialWorkDirRequirement: 
-    listing:
-      - entry: $(inputs.report)
-        writable: True
-
-hints:
-  DockerRequirement:
-    dockerPull: qbioturin/kraken2 
-
 
 baseCommand: ["python3", "/Bracken-2.9/src/est_abundance.py"]
 arguments: ["-o", "result.bracken"] 
