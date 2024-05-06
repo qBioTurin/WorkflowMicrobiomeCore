@@ -42,6 +42,15 @@ outputs:
   final_table:
     type: File
     outputSource: merge_bioms/final_table
+  count-zerothstep_output:
+    type: File[]
+    outputSource: count-zerothstep/count
+  count-genome_hg38_output:
+    type: File[]
+    outputSource: count-genome_hg38/count
+  count-genome_chm13_output:
+    type: File[]
+    outputSource: count-genome_chm13/count
 
 steps:
   zerothstep:
@@ -49,6 +58,14 @@ steps:
     in:
       dir: fastq_directory
     out: [reads_1, reads_2]
+  count-zerothstep:
+    run: cwl/countFastq.cwl
+    scatter: [read_1, read_2]
+    scatterMethod: dotproduct
+    in:
+      read_1: zerothstep/reads_1
+      read_2: zerothstep/reads_2
+    out: [count]
   genomemapper_hg38:
     run: cwl/genomeMapper.cwl
     scatter: [read_1, read_2]
@@ -59,6 +76,14 @@ steps:
       index: index_hg38
       threads: threads
     out: [unmapped_R1, unmapped_R2]
+  count-genome_hg38:
+    run: cwl/countFastq.cwl
+    scatter: [read_1, read_2]
+    scatterMethod: dotproduct
+    in:
+      read_1: genomemapper_hg38/unmapped_R1
+      read_2: genomemapper_hg38/unmapped_R2
+    out: [count]
   genomemapper_chm13:
     run: cwl/genomeMapper_chm13.cwl
     scatter: [read_1, read_2]
@@ -69,6 +94,14 @@ steps:
       index: index_chm13
       threads: threads
     out: [unmapped_R1, unmapped_R2]
+  count-genome_chm13:
+    run: cwl/countFastq.cwl
+    scatter: [read_1, read_2]
+    scatterMethod: dotproduct
+    in:
+      read_1: genomemapper_chm13/unmapped_R1
+      read_2: genomemapper_chm13/unmapped_R2
+    out: [count]
   metaphlan4:
     run: cwl/metaphlan4.cwl
     scatter: [read_1, read_2]
