@@ -50,6 +50,9 @@ outputs:
   bracken_output:
     type: File[]
     outputSource: bracken/bracken
+  bracken_report_output:
+    type: File[]
+    outputSource: bracken/report
   count-zerothstep_output:
     type: File[]
     outputSource: count-zerothstep/count
@@ -134,4 +137,4 @@ steps:
       kmer_distrib: db_bracken
       classification_level: classification_level
       threshold: threshold  
-    out: [bracken]
+    out: [bracken, report]

@@ -39,3 +39,10 @@ outputs:
       outputEval: ${
           self[0].basename = inputs.report.nameroot + ".bracken";
           return self; }
+  report: 
+    type: File
+    outputBinding:
+      glob: "*bracken_species.report"
+      outputEval: ${
+          self[0].basename = inputs.report.nameroot + "_bracken.report";
+          return self; }
