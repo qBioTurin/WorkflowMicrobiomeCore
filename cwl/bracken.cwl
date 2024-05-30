@@ -5,7 +5,11 @@ requirements:
   InlineJavascriptRequirement: {}
 
 baseCommand: ["python3", "/Bracken-2.9/src/est_abundance.py"]
-arguments: ["-o", "result.bracken"] 
+arguments:
+  - valueFrom: $(runtime.outdir)/result.bracken
+    prefix: -o
+  - valueFrom: $(runtime.outdir)/result_bracken.report
+    prefix: --out-report
 
 inputs:
   report: 
@@ -35,14 +39,14 @@ outputs:
   bracken:
     type: File
     outputBinding:
-      glob: "*.bracken"
+      glob: "$(runtime.outdir)/result.bracken"
       outputEval: ${
           self[0].basename = inputs.report.nameroot + ".bracken";
           return self; }
   report: 
     type: File
     outputBinding:
-      glob: "*bracken_species.report"
+      glob: "$(runtime.outdir)/result_bracken.report"
       outputEval: ${
           self[0].basename = inputs.report.nameroot + "_bracken.report";
           return self; }
