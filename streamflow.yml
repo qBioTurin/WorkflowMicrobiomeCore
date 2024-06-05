@@ -4,7 +4,7 @@ workflows:
   workflow:
     type: cwl
     config:
-      file: workflowKraken2.cwl
+      file: workflowViromescan.cwl
       settings: config.yml
     bindings:
       - step: /genomemapper_hg38 
@@ -47,6 +47,10 @@ workflows:
         target:
           deployment: slurm-metaphlan4
           workdir: /beegfs/home/scontald/sf_tmp
+      - step: /viromescan
+        target:
+          deployment: slurm-viromescan
+          workdir: /beegfs/home/scontald/sf_tmp
         
 
 deployments:
@@ -74,6 +78,14 @@ deployments:
       sshKey: ./key/id_rsa  
       maxConcurrentJobs: 20
       file: ./sbatch/metaphlan4.sh
+  slurm-viromescan:
+    type: slurm
+    config:
+      hostname: c3sfr1.di.unito.it
+      username: scontald
+      sshKey: ./key/id_rsa  
+      maxConcurrentJobs: 20
+      file: ./sbatch/viromescan.sh
   docker-genomemapper:
     type: docker
     config: 
