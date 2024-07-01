@@ -36,12 +36,9 @@ outputs:
   report:
     type: File[]
     outputSource: metaphlan4/report
-  biom_output:
+  metaphlan_vsc:
     type: File[]
-    outputSource: metaphlan4/biom_output
-  final_table:
-    type: File
-    outputSource: merge_bioms/final_table
+    outputSource: metaphlan4/vsc_out
   count-zerothstep_output:
     type: File[]
     outputSource: count-zerothstep/count
@@ -111,9 +108,4 @@ steps:
       read_2: genomemapper_chm13/unmapped_R2
       threads: threads
       meta_path: meta_path
-    out: [bowtie2, report, biom_output] 
-  merge_bioms:
-    run: cwl/merge_bioms.cwl
-    in: 
-      biom_output: metaphlan4/biom_output
-    out: [final_table]
+    out: [bowtie2, report, vsc_out] 

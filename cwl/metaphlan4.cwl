@@ -11,7 +11,7 @@ hints:
   ResourceRequirement:
     coresMax: $(inputs.threads)
 
-baseCommand: ["bash", "/metaphlan4.sh"]
+baseCommand: ["bash", "/scripts/metaphlan4.sh"]
 
 inputs: 
   read_1:
@@ -43,8 +43,8 @@ outputs:
   report:
     type: File
     outputBinding:
-      glob: "*.txt"
-  biom_output:
+      glob: "*_output.txt"
+  vsc_out:
     type: File
     outputBinding:
-      glob: "*_output.biom"
+      glob: "*.vsc.txt"
