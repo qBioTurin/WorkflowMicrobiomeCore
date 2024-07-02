@@ -18,8 +18,8 @@ expression: |
           var filesR2 = [];
 
           files.forEach(function (file) {
-            if (file.basename.includes('1.f')) {
-              var correspondingFileR2 = file.basename.replace('1.f', '2.f');
+            if (file.basename.includes('R1')) {
+              var correspondingFileR2 = file.basename.replace('R1', 'R2');
               var fileR2 = files.find(function (f) {
                 return f.basename === correspondingFileR2;
               });

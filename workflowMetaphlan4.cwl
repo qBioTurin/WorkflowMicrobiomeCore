@@ -5,6 +5,7 @@ class: Workflow
 requirements:
   ScatterFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  SubworkflowFeatureRequirement: {}
 
 inputs:
   fastq_directory: Directory
@@ -28,17 +29,26 @@ inputs:
       - .sa
   meta_path:
     type: Directory
+  chocophlan_DB: Directory
+  uniref_DB:  Directory
+
 
 outputs: 
-  bowtie2:
+  vsc_out: 
     type: File[]
-    outputSource: metaphlan4/bowtie2
-  report:
+    outputSource: metaphlan4_flow/vsc_out
+  gene_families:  
     type: File[]
-    outputSource: metaphlan4/report
-  metaphlan_vsc:
+    outputSource: metaphlan4_flow/gene_families
+  path_coverage:  
     type: File[]
-    outputSource: metaphlan4/vsc_out
+    outputSource: metaphlan4_flow/path_coverage
+  path_abundance:
+    type: File[]
+    outputSource: metaphlan4_flow/path_abundance
+  normalized_families:
+    type: File[]
+    outputSource: metaphlan4_flow/normalized_families
   count-zerothstep_output:
     type: File[]
     outputSource: count-zerothstep/count
@@ -99,8 +109,8 @@ steps:
       read_1: genomemapper_chm13/unmapped_R1
       read_2: genomemapper_chm13/unmapped_R2
     out: [count]
-  metaphlan4:
-    run: cwl/metaphlan4.cwl
+  metaphlan4_flow:
+    run: cwl/metaphlan_flow.cwl
     scatter: [read_1, read_2]
     scatterMethod: dotproduct
     in:
@@ -108,4 +118,6 @@ steps:
       read_2: genomemapper_chm13/unmapped_R2
       threads: threads
       meta_path: meta_path
-    out: [bowtie2, report, vsc_out] 
+      chocophlan_DB: chocophlan_DB
+      uniref_DB: uniref_DB
+    out: [bowtie2, report, vsc_out,gene_families, path_coverage, path_abundance, temp_dir, normalized_families]
