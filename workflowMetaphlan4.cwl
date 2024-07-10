@@ -34,6 +34,9 @@ inputs:
 
 
 outputs: 
+  report_meta:
+    type: File[]
+    outputSource: metaphlan4_flow/report
   vsc_out: 
     type: File[]
     outputSource: metaphlan4_flow/vsc_out
