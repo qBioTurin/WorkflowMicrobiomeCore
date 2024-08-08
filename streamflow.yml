@@ -4,38 +4,14 @@ workflows:
   workflow:
     type: cwl
     config:
-      file: workflowMetaphlan4.cwl
+      file: workflowKraken2.cwl
       settings: config.yml
     bindings:
-      - step: /genomemapper_hg38 
+      - step: /kraken2/genomemapper
         target:
           deployment: slurm-genomemapper
           workdir: /beegfs/home/scontald/sf_tmp
-      - step: /genomemapper_chm13 
-        target:
-          deployment: slurm-genomemapper
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /count-zerothstep 
-        target:
-          deployment: slurm-genomemapper
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /count-genome_hg38 
-        target:
-          deployment: slurm-genomemapper
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /count-genome_chm13 
-        target:
-          deployment: slurm-genomemapper
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /kraken2 
-        target:
-          deployment: slurm-kraken2
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /kraken-biom 
-        target:
-          deployment: slurm-kraken2
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /bracken 
+      - step: /kraken2/kraken2 
         target:
           deployment: slurm-kraken2
           workdir: /beegfs/home/scontald/sf_tmp
