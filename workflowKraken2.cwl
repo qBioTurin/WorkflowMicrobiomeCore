@@ -44,9 +44,6 @@ outputs:
   kraken2_report:
     type: File[]
     outputSource: kraken2/report
-  kraken-biom_output:
-    type: File
-    outputSource: kraken-biom/biom
   bracken_output:
     type: File[]
     outputSource: bracken/bracken
@@ -123,11 +120,6 @@ steps:
       db_path: db_path
       threads: threads
     out: [kraken2, report] 
-  kraken-biom:
-    run: cwl/kraken-biom.cwl
-    in:
-      kraken_report: kraken2/report
-    out: [biom] 
   bracken:
     run: cwl/bracken.cwl
     scatter: [report]
