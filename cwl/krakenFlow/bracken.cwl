@@ -43,7 +43,7 @@ outputs:
       outputEval: ${
           self[0].basename = inputs.report.nameroot + ".bracken";
           return self; }
-  report: 
+  report_bracken: 
     type: File
     outputBinding:
       glob: "$(runtime.outdir)/result_bracken.report"

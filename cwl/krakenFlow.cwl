@@ -32,7 +32,7 @@ outputs:
     outputSource: bracken/bracken
   bracken_report_output:
     type: File
-    outputSource: bracken/report
+    outputSource: bracken/report_bracken
   
 steps:
   kraken2:
@@ -50,4 +50,4 @@ steps:
       kmer_distrib: db_bracken
       classification_level: classification_level
       threshold: threshold  
-    out: [bracken, report]
+    out: [bracken, report_bracken]
