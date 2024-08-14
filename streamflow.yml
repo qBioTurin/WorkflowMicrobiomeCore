@@ -4,7 +4,7 @@ workflows:
   workflow:
     type: cwl
     config:
-      file: workflowKraken2.cwl
+      file: workflowMetaphlan4.cwl
       settings: config.yml
     bindings:
       - step: /kraken2/genomemapper
@@ -15,25 +15,25 @@ workflows:
         target:
           deployment: slurm-kraken2
           workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan4_flow/metaphlan4
-        target:
-          deployment: slurm-metaphlan4
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan4_flow/fuse_reads
+      - step: /metaphlan_humann/genomemapper
         target:
           deployment: slurm-genomemapper
           workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan4_flow/humann3
-        target:
-          deployment: slurm-humann3
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan4_flow/normalization
-        target:
-          deployment: slurm-humann3
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /merge_bioms
+      - step: /metaphlan_humann/metaphlan4_flow/metaphlan4
         target:
           deployment: slurm-metaphlan4
+          workdir: /beegfs/home/scontald/sf_tmp
+      - step: /metaphlan_humann/metaphlan4_flow/fuse_reads
+        target:
+          deployment: slurm-genomemapper
+          workdir: /beegfs/home/scontald/sf_tmp
+      - step: /metaphlan_humann/metaphlan4_flow/humann3
+        target:
+          deployment: slurm-humann3
+          workdir: /beegfs/home/scontald/sf_tmp
+      - step: /metaphlan_humann/metaphlan4_flow/normalization
+        target:
+          deployment: slurm-humann3
           workdir: /beegfs/home/scontald/sf_tmp
       - step: /viromescan
         target:
@@ -82,11 +82,3 @@ deployments:
       sshKey: ./key/id_rsa  
       maxConcurrentJobs: 20
       file: ./sbatch/viromescan.sh
-  docker-genomemapper:
-    type: docker
-    config: 
-      image: qbioturin/genomemapper
-  docker-kraken2:
-    type: docker
-    config: 
-      image: qbioturin/kraken2

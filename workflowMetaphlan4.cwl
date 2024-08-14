@@ -27,8 +27,7 @@ inputs:
       - .bwt
       - .pac
       - .sa
-  meta_path:
-    type: Directory
+  meta_path: Directory
   chocophlan_DB: Directory
   uniref_DB:  Directory
 
@@ -36,31 +35,31 @@ inputs:
 outputs: 
   report_meta:
     type: File[]
-    outputSource: metaphlan4_flow/report
+    outputSource: metaphlan_humann/metaphlan4_report
   vsc_out: 
     type: File[]
-    outputSource: metaphlan4_flow/vsc_out
+    outputSource: metaphlan_humann/metaphlan4_vsc
   gene_families:  
     type: File[]
-    outputSource: metaphlan4_flow/gene_families
+    outputSource: metaphlan_humann/humann3_gene_families
   path_coverage:  
     type: File[]
-    outputSource: metaphlan4_flow/path_coverage
+    outputSource: metaphlan_humann/humann3_path_coverage
   path_abundance:
     type: File[]
-    outputSource: metaphlan4_flow/path_abundance
+    outputSource: metaphlan_humann/humann3_path_abundance
   normalized_families:
     type: File[]
-    outputSource: metaphlan4_flow/normalized_families
+    outputSource: metaphlan_humann/humann3_normalized_families
   count-zerothstep_output:
     type: File[]
-    outputSource: count-zerothstep/count
+    outputSource: metaphlan_humann/count-zerothstep_output
   count-genome_hg38_output:
     type: File[]
-    outputSource: count-genome_hg38/count
+    outputSource: metaphlan_humann/count-genome_hg38_output
   count-genome_chm13_output:
     type: File[]
-    outputSource: count-genome_chm13/count
+    outputSource: metaphlan_humann/count-genome_chm13_output
 
 steps:
   zerothstep:
@@ -68,59 +67,17 @@ steps:
     in:
       dir: fastq_directory
     out: [reads_1, reads_2]
-  count-zerothstep:
-    run: cwl/countFastq.cwl
+  metaphlan_humann: 
+    run: cwl/metaphlanMain.cwl
     scatter: [read_1, read_2]
     scatterMethod: dotproduct
-    in:
+    in: 
       read_1: zerothstep/reads_1
       read_2: zerothstep/reads_2
-    out: [count]
-  genomemapper_hg38:
-    run: cwl/genomeMapper.cwl
-    scatter: [read_1, read_2]
-    scatterMethod: dotproduct
-    in:
-      read_1: zerothstep/reads_1
-      read_2: zerothstep/reads_2
-      index: index_hg38
       threads: threads
-    out: [unmapped_R1, unmapped_R2]
-  count-genome_hg38:
-    run: cwl/countFastq.cwl
-    scatter: [read_1, read_2]
-    scatterMethod: dotproduct
-    in:
-      read_1: genomemapper_hg38/unmapped_R1
-      read_2: genomemapper_hg38/unmapped_R2
-    out: [count]
-  genomemapper_chm13:
-    run: cwl/genomeMapper_chm13.cwl
-    scatter: [read_1, read_2]
-    scatterMethod: dotproduct
-    in:
-      read_1: genomemapper_hg38/unmapped_R1 
-      read_2: genomemapper_hg38/unmapped_R2
-      index: index_chm13
-      threads: threads
-    out: [unmapped_R1, unmapped_R2]
-  count-genome_chm13:
-    run: cwl/countFastq.cwl
-    scatter: [read_1, read_2]
-    scatterMethod: dotproduct
-    in:
-      read_1: genomemapper_chm13/unmapped_R1
-      read_2: genomemapper_chm13/unmapped_R2
-    out: [count]
-  metaphlan4_flow:
-    run: cwl/metaphlan_flow.cwl
-    scatter: [read_1, read_2]
-    scatterMethod: dotproduct
-    in:
-      read_1: genomemapper_chm13/unmapped_R1
-      read_2: genomemapper_chm13/unmapped_R2
-      threads: threads
+      index_chm13: index_chm13
+      index_hg38: index_hg38
       meta_path: meta_path
       chocophlan_DB: chocophlan_DB
-      uniref_DB: uniref_DB
-    out: [bowtie2, report, vsc_out,gene_families, path_coverage, path_abundance, temp_dir, normalized_families]
+      uniref_DB:  uniref_DB
+    out: [count-zerothstep_output, count-genome_hg38_output, count-genome_chm13_output, metaphlan4_bowtie2, metaphlan4_report, metaphlan4_vsc, humann3_gene_families, humann3_path_coverage, humann3_path_abundance, humann3_normalized_families]
