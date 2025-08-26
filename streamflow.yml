@@ -4,81 +4,50 @@ workflows:
   workflow:
     type: cwl
     config:
-      file: workflowMetaphlan4.cwl
+      file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/workflowHumannKTotal.cwl
       settings: config.yml
+      docker:
+        - step: /
+          deployment:
+            type: none
+            config: {}
     bindings:
-      - step: /kraken2/genomemapper
+      - step: /KHumann
         target:
-          deployment: slurm-genomemapper
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /kraken2/kraken2 
+          deployment: c3sfr1-slurm
+          service: kraken
+      - step: /KHumann/fuse_reads
         target:
-          deployment: slurm-kraken2
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan_humann/genomemapper
+          deployment: c3sfr1-slurm
+          service: genomemapper
+      - step: /KHumann/humann3
         target:
-          deployment: slurm-genomemapper
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan_humann/metaphlan4_flow/metaphlan4
-        target:
-          deployment: slurm-metaphlan4
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan_humann/metaphlan4_flow/fuse_reads
-        target:
-          deployment: slurm-genomemapper
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan_humann/metaphlan4_flow/humann3
-        target:
-          deployment: slurm-humann3
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /metaphlan_humann/metaphlan4_flow/normalization
-        target:
-          deployment: slurm-humann3
-          workdir: /beegfs/home/scontald/sf_tmp
-      - step: /viromescan
-        target:
-          deployment: slurm-viromescan
-          workdir: /beegfs/home/scontald/sf_tmp
+          deployment: c3sfr1-slurm
+          service: humann
         
+database:
+  type: sqlite
+  config:
+    connection: ./database/db2
 
 deployments:
-  slurm-genomemapper:
+  c3sfr1-ssh:
+    type: ssh
+    config:
+      nodes:
+        - c3sfr1.di.unito.it
+      username: scontald
+      sshKey: ~/.ssh/id_rsa
+    workdir: /beegfs/home/scontald/sf_tmp/
+  c3sfr1-slurm:
     type: slurm
     config:
-      hostname: c3sfr1.di.unito.it
-      username: scontald
-      sshKey: ./key/id_rsa  
-      maxConcurrentJobs: 20
-      file: ./sbatch/genomeMapper.sh
-  slurm-kraken2:
-    type: slurm
-    config:
-      hostname: c3sfr1.di.unito.it
-      username: scontald
-      sshKey: ./key/id_rsa  
-      maxConcurrentJobs: 20
-      file: ./sbatch/kraken2.sh
-  slurm-metaphlan4:
-    type: slurm
-    config:
-      hostname: c3sfr1.di.unito.it
-      username: scontald
-      sshKey: ./key/id_rsa  
-      maxConcurrentJobs: 20
-      file: ./sbatch/metaphlan4.sh
-  slurm-humann3:
-    type: slurm
-    config:
-      hostname: c3sfr1.di.unito.it
-      username: scontald
-      sshKey: ./key/id_rsa  
-      maxConcurrentJobs: 20
-      file: ./sbatch/humann3.sh
-  slurm-viromescan:
-    type: slurm
-    config:
-      hostname: c3sfr1.di.unito.it
-      username: scontald
-      sshKey: ./key/id_rsa  
-      maxConcurrentJobs: 20
-      file: ./sbatch/viromescan.sh
+      maxConcurrentJobs: 10
+      services:
+        kraken:
+          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/kraken2.sh
+        humann:
+          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/humann3.sh
+        genomemapper:
+          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/genomeMapper.sh
+    wraps: c3sfr1-ssh
