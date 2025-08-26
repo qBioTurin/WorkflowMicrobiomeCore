@@ -1,5 +1,6 @@
 #!/bin/bash
-#SBATCH --partition=broadwell-booked
+#SBATCH --partition=broadwell
 #SBATCH -N 1 
-#SBATCH --reservation=microbiome
-srun /opt/adw/bin/adw run -i qbioturin/kraken2:0.1 -c "/bin/bash -c '{{streamflow_command}}'"
+#SBATCH --output=job_%j.out
+#SBATCH --error=job_%j.err 
+srun /opt/adw/bin/adw run -i qbioturin/kraken2:0.1.3 -c "/bin/bash -c 'time {{streamflow_command}}'"

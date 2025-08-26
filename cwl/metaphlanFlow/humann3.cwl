@@ -56,7 +56,3 @@ outputs:
     type: File
     outputBinding:
       glob: "*pathabundance.tsv"
-  temp_dir:
-    type: Directory
-    outputBinding:
-      glob: "*humann_temp"

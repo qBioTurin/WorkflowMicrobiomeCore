@@ -32,9 +32,6 @@ outputs:
     path_abundance: 
         type: File
         outputSource: humann3/path_abundance
-    temp_dir: 
-        type: Directory
-        outputSource: humann3/temp_dir
     normalized_families:
         type: File
         outputSource: normalization/normalized_families
@@ -64,7 +61,7 @@ steps:
       chocophlan_DB: chocophlan_DB
       uniref_DB: uniref_DB
       threads: threads
-    out: [gene_families, path_coverage, path_abundance, temp_dir]
+    out: [gene_families, path_coverage, path_abundance]
   normalization:
     run: metaphlanFlow/humann3_normalization.cwl
     in:

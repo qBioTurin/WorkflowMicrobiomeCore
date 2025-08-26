@@ -5,6 +5,12 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     coresMax: $(inputs.threads)
+  InitialWorkDirRequirement: 
+    listing:
+      - entry: $(inputs.read_1)
+        writable: True
+      - entry: $(inputs.read_2)
+        writable: True
 
 hints:
   DockerRequirement:
