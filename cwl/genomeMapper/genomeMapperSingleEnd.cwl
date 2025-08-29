@@ -7,9 +7,6 @@ requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing: [ $(inputs.index) ]
-hints:
-  ResourceRequirement:
-    coresMax: $(inputs.threads)
 
 baseCommand: ["bash", "/scripts/genomeMapperSingleEnd.sh"]
 

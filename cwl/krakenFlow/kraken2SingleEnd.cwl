@@ -7,9 +7,6 @@ doc: |
 
 requirements:
   InlineJavascriptRequirement: {}
-hints:
-  ResourceRequirement:
-    coresMax: $(inputs.threads)
 
 baseCommand: ["bash", "/kraken2SingleEnd.sh"]
 
