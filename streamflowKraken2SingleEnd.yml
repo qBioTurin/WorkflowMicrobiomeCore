@@ -1,0 +1,47 @@
+#!/usr/bin/env streamflow
+version: v1.0
+workflows:
+  workflow:
+    type: cwl
+    config:
+      file: ./workflowKraken2SingleEnd.cwl
+      settings: config.yml
+      docker:
+        - step: /
+          deployment:
+            type: none
+            config: {}
+    bindings:
+      - step: /kraken2/genomemapper
+        target:
+          deployment: c3sfr1-slurm
+          service: genomemapper
+      - step: /kraken2/kraken2
+        target:
+          deployment: c3sfr1-slurm
+          service: kraken
+        
+database:
+  type: sqlite
+  config:
+    connection: ./database/db2
+
+deployments:
+  c3sfr1-ssh:
+    type: ssh
+    config:
+      nodes:
+        - c3sfr1.di.unito.it
+      username: scontald
+      sshKey: ~/.ssh/id_rsa
+    workdir: /beegfs/home/scontald/sf_tmp/
+  c3sfr1-slurm:
+    type: slurm
+    config:
+      maxConcurrentJobs: 10
+      services:
+        kraken:
+          file: ./sbatch/kraken2.sh
+        genomemapper:
+          file: ./sbatch/genomeMapper.sh
+    wraps: c3sfr1-ssh

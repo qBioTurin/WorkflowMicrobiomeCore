@@ -4,7 +4,7 @@ workflows:
   workflow:
     type: cwl
     config:
-      file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/workflowHumannKTotal.cwl
+      file: ./workflowKraken2.cwl
       settings: config.yml
       docker:
         - step: /
@@ -12,18 +12,14 @@ workflows:
             type: none
             config: {}
     bindings:
-      - step: /KHumann
-        target:
-          deployment: c3sfr1-slurm
-          service: kraken
-      - step: /KHumann/fuse_reads
+      - step: /kraken2/genomemapper
         target:
           deployment: c3sfr1-slurm
           service: genomemapper
-      - step: /KHumann/humann3
+      - step: /kraken2/kraken2
         target:
           deployment: c3sfr1-slurm
-          service: humann
+          service: kraken
         
 database:
   type: sqlite
@@ -45,9 +41,7 @@ deployments:
       maxConcurrentJobs: 10
       services:
         kraken:
-          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/kraken2.sh
-        humann:
-          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/humann3.sh
+          file: ./sbatch/kraken2.sh
         genomemapper:
-          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/genomeMapper.sh
+          file: ./sbatch/genomeMapper.sh
     wraps: c3sfr1-ssh

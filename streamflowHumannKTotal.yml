@@ -1,0 +1,53 @@
+#!/usr/bin/env streamflow
+version: v1.0
+workflows:
+  workflow:
+    type: cwl
+    config:
+      file: ./workflowHumannKTotal.cwl
+      settings: config.yml
+      docker:
+        - step: /
+          deployment:
+            type: none
+            config: {}
+    bindings:
+      - step: /KHumann
+        target:
+          deployment: c3sfr1-slurm
+          service: kraken
+      - step: /KHumann/fuse_reads
+        target:
+          deployment: c3sfr1-slurm
+          service: genomemapper
+      - step: /KHumann/humann3
+        target:
+          deployment: c3sfr1-slurm
+          service: humann
+        
+database:
+  type: sqlite
+  config:
+    connection: ./database/db2
+
+deployments:
+  c3sfr1-ssh:
+    type: ssh
+    config:
+      nodes:
+        - c3sfr1.di.unito.it
+      username: scontald
+      sshKey: ~/.ssh/id_rsa
+    workdir: /beegfs/home/scontald/sf_tmp/
+  c3sfr1-slurm:
+    type: slurm
+    config:
+      maxConcurrentJobs: 10
+      services:
+        kraken:
+          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/kraken2.sh
+        humann:
+          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/humann3.sh
+        genomemapper:
+          file: /storage/gitProjects/Workflows/Metagenome/WorkflowMicrobiomeCore/sbatch/genomeMapper.sh
+    wraps: c3sfr1-ssh
