@@ -2,47 +2,41 @@
 cwlVersion: v1.2
 class: CommandLineTool
 
-doc: |
-  Kraken2 mapping 
-
 requirements:
   InlineJavascriptRequirement: {}
-hints:
-  ResourceRequirement:
-    coresMax: $(inputs.threads)
 
-baseCommand: ["bash", "/kraken2.sh"]
+
+baseCommand: ["bash", "/scripts/Kraken2.sh"]
 
 inputs: 
   read_1:
-    doc: ""
     type: File
     inputBinding:
-      position: 3  
+      position: 1  
+      prefix: "--read1"
   read_2:
-    doc: ""
-    type: File
+    type: File?
     inputBinding:
-      position: 4 
+      position: 2
+      prefix: "--read2"
   db_path:
     type: 
       - Directory
       - File
-    label: "Kraken 2 DB"
-    doc: "(either a File refer to the hash.k2d file in the DB or a Directory to reference the entire directory)"
     inputBinding:
-      position: 2
+      position: 3
+      prefix: "--database"
       valueFrom: |
         ${ return (self.class == "File") ? self.dirname : self.path }
     secondaryFiles:
       - $("opts.k2d")
       - $("taxo.k2d")
   threads:
-    doc: "Maximum number of compute threads"
     type: int?
-    default: 1
+    default: 4
     inputBinding:
-      position: 1
+      position: 4
+      prefix: "--threads"
 
 outputs:
   kraken2:

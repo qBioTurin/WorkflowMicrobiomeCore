@@ -7,8 +7,7 @@ requirements:
 hints:
   ResourceRequirement:
     coresMax: $(inputs.threads)
-  DockerRequirement:
-    dockerPull: biobakery/humann 
+
 baseCommand: ["humann"]
 
 
@@ -40,6 +39,9 @@ inputs:
     inputBinding:
       position: 6
       prefix: --threads
+  output_prefix:
+    type: string?
+    default: ""
 arguments: ["--output","./", "--input-format","fastq"]
  
      
@@ -48,11 +50,20 @@ outputs:
     type: File
     outputBinding:
       glob: "*genefamilies.tsv"
+      outputEval: ${
+          self[0].basename = inputs.read_fused.nameroot + "_" + inputs.output_prefix + "_genefamilies.tsv";
+          return self; }
   path_coverage:
     type: File
     outputBinding:
       glob: "*pathcoverage.tsv"
+      outputEval: ${
+          self[0].basename = inputs.read_fused.nameroot + "_" + inputs.output_prefix + "_pathcoverage.tsv";
+          return self; }
   path_abundance:
     type: File
     outputBinding:
       glob: "*pathabundance.tsv"
+      outputEval: ${
+          self[0].basename = inputs.read_fused.nameroot + "_" + inputs.output_prefix + "_pathabundance.tsv";
+          return self; }

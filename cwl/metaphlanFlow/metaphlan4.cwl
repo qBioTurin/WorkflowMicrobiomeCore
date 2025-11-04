@@ -2,9 +2,6 @@
 cwlVersion: v1.2
 class: CommandLineTool
 
-doc: |
-  Metaphlan4 mapping 
-
 requirements:
   InlineJavascriptRequirement: {}
 hints:
@@ -19,21 +16,25 @@ inputs:
     type: File
     inputBinding:
       position: 1  
+      prefix: "--read1"
   read_2:
     doc: ""
-    type: File
+    type: File?
     inputBinding:
       position: 2 
+      prefix: "--read2"
   threads:
     doc: "Maximum number of compute threads"
     type: int?
-    default: 1
+    default: 4
     inputBinding:
       position: 3
+      prefix: "--threads"
   meta_path:
     type: Directory
     inputBinding:
       position: 4
+      prefix: "--bowtie2_db"
 
 outputs:
   bowtie2:
@@ -44,7 +45,3 @@ outputs:
     type: File
     outputBinding:
       glob: "*_output.txt"
-  vsc_out:
-    type: File
-    outputBinding:
-      glob: "*.vsc.txt"

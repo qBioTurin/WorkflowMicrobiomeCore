@@ -1,1 +1,1 @@
-streamflow run --outdir output streamflow.yml
+streamflow run --outdir output streamflowMain.yml

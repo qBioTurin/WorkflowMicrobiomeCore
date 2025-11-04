@@ -1,6 +1,7 @@
 #!/bin/bash
-#SBATCH --partition=broadwell
+#SBATCH --partition=broadwell-booked
+#SBATCH --reservation=microbiome
 #SBATCH -N 1 
 #SBATCH --output=job_%j.out
 #SBATCH --error=job_%j.err 
-srun /opt/adw/bin/adw run -i qbioturin/genomemapper:0.6.1 -c "/bin/bash -c 'time {{streamflow_command}}'"
+srun /opt/adw/bin/adw run -i qbioturin/genomemapper:0.6.7 -c "/bin/bash -c 'time {{streamflow_command}}'"

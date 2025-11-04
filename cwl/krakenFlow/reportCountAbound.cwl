@@ -9,11 +9,7 @@ requirements:
       - entry: $(inputs.report)
         writable: True
 
-hints:
-  DockerRequirement:
-    dockerPull: "qbioturin/kraken2:0.1.1"
-
-baseCommand: ["python3", "/transformInMeta.py"]
+baseCommand: ["python3", "/scripts/transformInMeta.py"]
 
 inputs: 
   report:

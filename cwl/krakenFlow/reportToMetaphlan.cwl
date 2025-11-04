@@ -5,11 +5,7 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
 
-hints:
-  DockerRequirement:
-    dockerPull: "qbioturin/kraken2:0.1.1"
-
-baseCommand: ["python3", "/kraken2mpa.py"]
+baseCommand: ["python3", "/scripts/kraken2mpa.py"]
 
 inputs: 
   report:

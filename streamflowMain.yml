@@ -4,7 +4,7 @@ workflows:
   workflow:
     type: cwl
     config:
-      file: ./workflowKraken2.cwl
+      file: ./main.cwl
       settings: config.yml
       docker:
         - step: /
@@ -12,19 +12,32 @@ workflows:
             type: none
             config: {}
     bindings:
-      - step: /kraken2/genomemapper
+      - step: /wrapperCore/genomemapper
         target:
           deployment: c3sfr1-slurm
           service: genomemapper
-      - step: /kraken2/kraken2
+      - step: /wrapperCore/wrapperKraken/wrapperHumann/
+        target:
+          deployment: c3sfr1-slurm
+          service: humann3
+      - step: /wrapperCore/wrapperKraken/
         target:
           deployment: c3sfr1-slurm
           service: kraken
+      - step: /wrapperCore/wrapperMetaphlan/wrapperHumann/
+        target:
+          deployment: c3sfr1-slurm
+          service: humann3
+      - step: /wrapperCore/wrapperMetaphlan/
+        target:
+          deployment: c3sfr1-slurm
+          service: metaphlan4
+        
         
 database:
   type: sqlite
   config:
-    connection: ./database/db2
+    connection: ./database/db
 
 deployments:
   c3sfr1-ssh:
@@ -34,7 +47,7 @@ deployments:
         - c3sfr1.di.unito.it
       username: scontald
       sshKey: ~/.ssh/id_rsa
-    workdir: /beegfs/home/scontald/sf_tmp/
+    workdir: /beegfs/home/scontald/streamflow_tmp/metagenome
   c3sfr1-slurm:
     type: slurm
     config:
@@ -44,4 +57,8 @@ deployments:
           file: ./sbatch/kraken2.sh
         genomemapper:
           file: ./sbatch/genomeMapper.sh
+        metaphlan4:
+          file: ./sbatch/metaphlan4.sh
+        humann3:
+          file: ./sbatch/humann3.sh
     wraps: c3sfr1-ssh
