@@ -35,6 +35,12 @@ inputs:
     inputBinding:
       position: 4
       prefix: "--bowtie2_db"
+  stat_q:
+    type: float?
+    default: 0.2
+    inputBinding:
+      position: 5
+      prefix: "--stat_q"
 
 outputs:
   bowtie2:

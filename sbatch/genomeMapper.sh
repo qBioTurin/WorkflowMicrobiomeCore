@@ -4,4 +4,4 @@
 #SBATCH -N 1 
 #SBATCH --output=job_%j.out
 #SBATCH --error=job_%j.err 
-srun /opt/adw/bin/adw run -i qbioturin/genomemapper:0.6.7 -c "/bin/bash -c 'time {{streamflow_command}}'"
+srun /opt/adw/bin/adw run -i qbioturin/genomemapper:0.6.9 -c "/bin/bash -c 'time {{streamflow_command}}'"

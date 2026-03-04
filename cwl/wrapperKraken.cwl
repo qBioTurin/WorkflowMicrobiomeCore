@@ -27,6 +27,7 @@ inputs:
         - kraken
         - metaphlan
         - both
+  confidence: float?
 
 outputs:
   kraken2_output:
@@ -59,6 +60,7 @@ steps:
       read_2: read_2
       db_path: db_path
       threads: threads
+      confidence: confidence
     out: [kraken2, report]
   bracken:
     run: krakenFlow/bracken.cwl

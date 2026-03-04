@@ -24,6 +24,8 @@ inputs:
       - $("opts.k2d")
       - $("taxo.k2d")
   meta_path: Directory
+  confidence: float?
+  stat_q: float?
   algorithm:
     - type: enum
       symbols:
@@ -56,12 +58,12 @@ outputs:
   kraken2_report:
     type: File[]?
     outputSource: wrapperCore/kraken2_report
-  unmapped_R1:
-    type: File[]
-    outputSource: wrapperCore/unmapped_R1
-  unmapped_R2:
-    type: File[]?
-    outputSource: wrapperCore/unmapped_R2
+#   unmapped_R1:
+#     type: File[]
+#     outputSource: wrapperCore/unmapped_R1
+#   unmapped_R2:
+#     type: File[]?
+#     outputSource: wrapperCore/unmapped_R2
   bracken_output:
     type: File[]?
     outputSource: wrapperCore/bracken_output
@@ -94,4 +96,6 @@ steps:
       kraken_path: kraken_path
       meta_path: meta_path
       algorithm: algorithm
+      confidence: confidence
+      stat_q: stat_q  
     out: [humann3_gene_families_kraken, humann3_path_coverage_kraken, humann3_path_abundance_kraken, kraken2_output, kraken2_report, unmapped_R1, unmapped_R2, bracken_output, bracken_report, humann3_gene_families_metaphlan, humann3_path_coverage_metaphlan, humann3_path_abundance_metaphlan, metaphlan_report]

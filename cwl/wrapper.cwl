@@ -23,6 +23,8 @@ inputs:
       - $("opts.k2d")
       - $("taxo.k2d")
   meta_path: Directory
+  confidence: float?
+  stat_q: float?
   algorithm:
     - type: enum
       symbols:
@@ -92,6 +94,7 @@ steps:
       chocophlan_DB: chocophlan_DB
       uniref_DB: uniref_DB
       db_bracken: db_bracken
+      confidence: confidence
     when: $(inputs.algorithm === "kraken" || inputs.algorithm === "both")
     out: [kraken2_output, kraken2_report, humann3_gene_families, humann3_path_coverage, humann3_path_abundance, bracken_output, bracken_report]
   wrapperMetaphlan:
@@ -105,5 +108,6 @@ steps:
       algorithm: algorithm
       chocophlan_DB: chocophlan_DB
       uniref_DB: uniref_DB
+      stat_q: stat_q
     when: $(inputs.algorithm === "metaphlan" || inputs.algorithm === "both")
     out: [report, humann3_gene_families, humann3_path_coverage, humann3_path_abundance]

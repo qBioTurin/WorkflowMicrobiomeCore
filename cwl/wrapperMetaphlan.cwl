@@ -14,6 +14,7 @@ inputs:
   meta_path: Directory
   chocophlan_DB: Directory
   uniref_DB:  Directory
+  stat_q: float?
   algorithm:
     - type: enum
       symbols:
@@ -43,6 +44,7 @@ steps:
       read_2: read_2
       threads: threads
       meta_path: meta_path
+      stat_q: stat_q
     out: [report]
   wrapperHumann:
     run: wrapperHumann.cwl

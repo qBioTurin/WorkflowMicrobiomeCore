@@ -37,6 +37,12 @@ inputs:
     inputBinding:
       position: 4
       prefix: "--threads"
+  confidence:
+    type: float?
+    default: 0.0
+    inputBinding:
+      position: 5
+      prefix: "--confidence"
 
 outputs:
   kraken2:

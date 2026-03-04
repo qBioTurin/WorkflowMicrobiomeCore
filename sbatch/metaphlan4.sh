@@ -4,4 +4,4 @@
 #SBATCH --reservation=microbiome
 #SBATCH --output=job_%j.out
 #SBATCH --error=job_%j.err 
-srun /opt/adw/bin/adw run -i qbioturin/metaphlan4:0.3.2 -c "/bin/bash -c '{{streamflow_command}}'"
+srun /opt/adw/bin/adw run -i qbioturin/metaphlan4:0.3.5 -c "/bin/bash -c '{{streamflow_command}}'"
