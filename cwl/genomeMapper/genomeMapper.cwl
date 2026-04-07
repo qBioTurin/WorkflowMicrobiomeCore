@@ -6,6 +6,8 @@ requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing: [ $(inputs.index) ]
+  DockerRequirement:
+    dockerPull: qbioturin/genomemapper:0.6.9
 
 baseCommand: ["bash", "/scripts/genomeMapper.sh"]
 

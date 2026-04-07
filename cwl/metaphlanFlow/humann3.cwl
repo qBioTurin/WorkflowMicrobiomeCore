@@ -7,6 +7,8 @@ requirements:
 hints:
   ResourceRequirement:
     coresMax: $(inputs.threads)
+  DockerRequirement:
+    dockerPull: qbioturin/humann3:0.0.3
 
 baseCommand: ["humann"]
 

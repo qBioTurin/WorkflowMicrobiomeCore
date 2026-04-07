@@ -4,6 +4,8 @@ class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
+  DockerRequirement:
+    dockerPull: qbioturin/kraken2:0.1.10
 
 
 baseCommand: ["bash", "/scripts/Kraken2.sh"]

@@ -3,12 +3,14 @@ class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
+  DockerRequirement:
+    dockerPull: qbioturin/kraken2:0.1.10
 
 baseCommand: ["python3", "/Bracken-2.9/src/est_abundance.py"]
 arguments:
-  - valueFrom: $(runtime.outdir)/result.bracken
+  - valueFrom: result.bracken
     prefix: -o
-  - valueFrom: $(runtime.outdir)/result_bracken.report
+  - valueFrom: result_bracken.report
     prefix: --out-report
 
 inputs:
@@ -39,14 +41,14 @@ outputs:
   bracken:
     type: File
     outputBinding:
-      glob: "$(runtime.outdir)/result.bracken"
+      glob: result.bracken
       outputEval: ${
           self[0].basename = inputs.report.nameroot + ".bracken";
           return self; }
   report_bracken: 
     type: File
     outputBinding:
-      glob: "$(runtime.outdir)/result_bracken.report"
+      glob: result_bracken.report
       outputEval: ${
           self[0].basename = inputs.report.nameroot + "_bracken.report";
           return self; }
